@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMEN | Photography Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            700: '#44403c',
+                            800: '#292524',
+                            900: '#1c1917',
+                            950: '#0c0a09',
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0a09;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #44403c;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #57534e;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-stone-950 text-stone-100 font-sans selection:bg-stone-700 selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-6 bg-transparent">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <i data-lucide="aperture" class="w-6 h-6"></i>
+                <span>LUMEN</span>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+                <button onclick="scrollToSection('gallery')" class="hover:text-stone-400 transition-colors">WORK</button>
+                <button onclick="scrollToSection('about')" class="hover:text-stone-400 transition-colors">ABOUT</button>
+                <button onclick="scrollToSection('contact')" class="hover:text-stone-400 transition-colors">CONTACT</button>
+                <button class="bg-white text-stone-950 px-5 py-2 rounded-full hover:bg-stone-200 transition-colors font-bold">
+                    Book Now
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white" onclick="toggleMenu()">
+                <i id="menu-icon" data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-30 bg-stone-950 flex flex-col items-center justify-center gap-8 hidden md:hidden opacity-0 transition-opacity duration-300">
+        <button onclick="scrollToSection('gallery')" class="text-2xl font-light hover:text-stone-400">WORK</button>
+        <button onclick="scrollToSection('about')" class="text-2xl font-light hover:text-stone-400">ABOUT</button>
+        <button onclick="scrollToSection('contact')" class="text-2xl font-light hover:text-stone-400">CONTACT</button>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop" 
+                alt="Hero Background" 
+                class="w-full h-full object-cover opacity-60"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-stone-950/30 via-stone-950/10 to-stone-950"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
+            <p class="text-stone-300 tracking-[0.2em] mb-4 text-sm md:text-base animate-fade-in-up">PHOTOGRAPHY PORTFOLIO</p>
+            <h1 class="text-5xl md:text-8xl font-bold tracking-tighter mb-8 leading-tight animate-fade-in-up" style="animation-delay: 0.1s;">
+                Capturing Moments<br />
+                <span class="text-stone-400 italic font-serif font-light">Between Seconds</span>
+            </h1>
+            <button 
+                onclick="scrollToSection('gallery')"
+                class="group relative inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-300 animate-fade-in-up"
+                style="animation-delay: 0.2s;"
+            >
+                <span>View Gallery</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-24 px-6 container mx-auto">
+        <div class="flex flex-col items-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Selected Works</h2>
+            
+            <!-- Category Filter -->
+            <div id="category-filters" class="flex flex-wrap justify-center gap-2 md:gap-4">
+                <!-- Buttons injected by JS -->
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <!-- Images injected by JS -->
+        </div>
+        
+        <div id="no-images-msg" class="text-center py-20 text-stone-500 hidden">
+            No images found in this category.
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-stone-900">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="w-full md:w-1/2 aspect-square relative group">
+                   <img 
+                    src="https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2000&auto=format&fit=crop" 
+                    alt="Photographer" 
+                    class="w-full h-full object-cover grayscale rounded-sm transition-all duration-500 group-hover:grayscale-0"
+                  />
+                  <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-stone-800 p-8 hidden md:flex items-center justify-center flex-col text-center rounded-sm">
+                    <span class="text-4xl font-bold">5+</span>
+                    <span class="text-sm text-stone-400 mt-2 uppercase tracking-wide">Years Experience</span>
+                  </div>
+                </div>
+                
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8">The Eye Behind The Lens</h2>
+                    <div class="space-y-6 text-stone-300 leading-relaxed text-lg">
+                        <p>
+                            Hello, I'm Alex. I believe that photography is more than just capturing an image; it's about preserving a feeling, a fleeting moment in time that tells a story without words.
+                        </p>
+                        <p>
+                            Specializing in nature and urban environments, I travel the world seeking the perfect interplay of light and shadow. My work has been featured in several digital galleries and I strive to bring a cinematic quality to every shot.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-10 flex gap-8">
+                        <div>
+                            <h4 class="font-bold text-white mb-2">Gear</h4>
+                            <ul class="text-stone-400 text-sm space-y-1">
+                                <li>Canon R5</li>
+                                <li>Sony A7III</li>
+                                <li>DJI Mavic 3</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white mb-2">Focus</h4>
+                            <ul class="text-stone-400 text-sm space-y-1">
+                                <li>Landscape</li>
+                                <li>Editorial</li>
+                                <li>Architecture</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 container mx-auto max-w-4xl">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">Let's Create Together</h2>
+            <p class="text-stone-400 text-lg">Available for freelance projects and collaborations worldwide.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 bg-stone-900/50 p-8 md:p-12 rounded-lg border border-stone-800">
+            <div class="space-y-8">
+                <h3 class="text-2xl font-semibold">Get in Touch</h3>
+                <div class="space-y-4">
+                    <a href="#" class="flex items-center gap-4 text-stone-300 hover:text-white transition-colors">
+                        <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center">
+                            <i data-lucide="mail" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-stone-500">Email Me</p>
+                            <p class="font-medium">hello@lumenfolio.com</p>
+                        </div>
+                    </a>
+                    <a href="#" class="flex items-center gap-4 text-stone-300 hover:text-white transition-colors">
+                        <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-stone-500">Instagram</p>
+                            <p class="font-medium">@lumen_shots</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thanks for your message! This is a demo.');">
+                <div>
+                    <label class="block text-sm font-medium mb-2 text-stone-400">Name</label>
+                    <input type="text" class="w-full bg-stone-950 border border-stone-800 rounded-md p-3 focus:outline-none focus:border-stone-600 transition-colors" placeholder="Jane Doe" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2 text-stone-400">Email</label>
+                    <input type="email" class="w-full bg-stone-950 border border-stone-800 rounded-md p-3 focus:outline-none focus:border-stone-600 transition-colors" placeholder="jane@example.com" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2 text-stone-400">Message</label>
+                    <textarea rows="4" class="w-full bg-stone-950 border border-stone-800 rounded-md p-3 focus:outline-none focus:border-stone-600 transition-colors" placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-white text-stone-950 font-bold py-3 rounded-md hover:bg-stone-200 transition-colors">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-stone-900 text-center text-stone-500 text-sm">
+        <div class="flex justify-center gap-6 mb-8">
+            <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+            <a href="#" class="hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+        </div>
+        <p>&copy; <span id="year"></span> Lumen Photography. All rights reserved.</p>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="closeLightbox()">
+        <button 
+            class="absolute top-6 right-6 text-stone-400 hover:text-white p-2 z-50"
+            onclick="closeLightbox()"
+        >
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+
+        <button 
+            class="absolute left-4 md:left-8 text-white/50 hover:text-white p-4 transition-colors z-50"
+            onclick="changeImage(event, -1)"
+        >
+            <i data-lucide="chevron-left" class="w-8 h-8 md:w-12 md:h-12"></i>
+        </button>
+
+        <div 
+            class="max-w-[90vw] max-h-[85vh] relative" 
+            onclick="event.stopPropagation()"
+        >
+             <img 
+                id="lightbox-img"
+                src="" 
+                alt=""
+                class="max-w-full max-h-[85vh] object-contain shadow-2xl transition-all duration-300"
+            />
+            <div class="mt-4 text-center">
+                <h3 id="lightbox-title" class="text-xl text-white font-light tracking-wide"></h3>
+                <p id="lightbox-location" class="text-stone-400 text-sm mt-1"></p>
+            </div>
+        </div>
+
+        <button 
+            class="absolute right-4 md:right-8 text-white/50 hover:text-white p-4 transition-colors z-50"
+            onclick="changeImage(event, 1)"
+        >
+            <i data-lucide="chevron-right" class="w-8 h-8 md:w-12 md:h-12"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Data
+        const portfolioImages = [
+            {
+                id: 1,
+                url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2070&auto=format&fit=crop",
+                title: "Misty Mountains",
+                category: "Nature",
+                location: "Swiss Alps"
+            },
+            {
+                id: 2,
+                url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop",
+                title: "Urban Portrait",
+                category: "Portrait",
+                location: "New York City"
+            },
+            {
+                id: 3,
+                url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=1920&auto=format&fit=crop",
+                title: "City Lights",
+                category: "Urban",
+                location: "Tokyo"
+            },
+            {
+                id: 4,
+                url: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?q=80&w=1974&auto=format&fit=crop",
+                title: "Neon Rain",
+                category: "Abstract",
+                location: "Hong Kong"
+            },
+            {
+                id: 5,
+                url: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?q=80&w=2070&auto=format&fit=crop",
+                title: "Desert Dune",
+                category: "Nature",
+                location: "Sahara"
+            },
+            {
+                id: 6,
+                url: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1964&auto=format&fit=crop",
+                title: "Studio Gaze",
+                category: "Portrait",
+                location: "London Studio"
+            },
+            {
+                id: 7,
+                url: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1964&auto=format&fit=crop",
+                title: "Architecture Lines",
+                category: "Urban",
+                location: "Berlin"
+            },
+            {
+                id: 8,
+                url: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop",
+                title: "Liquid Gold",
+                category: "Abstract",
+                location: "Macro Studio"
+            },
+            {
+                id: 9,
+                url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2074&auto=format&fit=crop",
+                title: "Forest Path",
+                category: "Nature",
+                location: "Oregon"
+            }
+        ];
+
+        const categories = ["All", "Nature", "Urban", "Portrait", "Abstract"];
+        let activeCategory = "All";
+        let currentFilteredImages = [...portfolioImages];
+        let currentImageIndex = null;
+
+        // Init
+        document.getElementById('year').textContent = new Date().getFullYear();
+        renderCategories();
+        renderGallery();
+        lucide.createIcons();
+
+        // Scroll Handler
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent', 'py-6');
+                navbar.classList.add('bg-stone-950/90', 'backdrop-blur-md', 'py-4', 'border-b', 'border-stone-800');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-6');
+                navbar.classList.remove('bg-stone-950/90', 'backdrop-blur-md', 'py-4', 'border-b', 'border-stone-800');
+            }
+        });
+
+        // Functions
+        function renderCategories() {
+            const container = document.getElementById('category-filters');
+            container.innerHTML = categories.map(cat => `
+                <button
+                    onclick="setCategory('${cat}')"
+                    class="px-6 py-2 rounded-full text-sm transition-all duration-300 ${
+                        activeCategory === cat 
+                            ? 'bg-white text-stone-950 font-medium' 
+                            : 'bg-stone-900 text-stone-400 hover:bg-stone-800 hover:text-white'
+                    }"
+                >
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function setCategory(cat) {
+            activeCategory = cat;
+            currentFilteredImages = cat === "All" 
+                ? portfolioImages 
+                : portfolioImages.filter(img => img.category === cat);
+            
+            renderCategories();
+            renderGallery();
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            const msg = document.getElementById('no-images-msg');
+            
+            if (currentFilteredImages.length === 0) {
+                grid.innerHTML = '';
+                msg.classList.remove('hidden');
+                return;
+            }
+
+            msg.classList.add('hidden');
+            grid.innerHTML = currentFilteredImages.map((img, index) => `
+                <div 
+                    onclick="openLightbox(${index})"
+                    class="group cursor-pointer relative aspect-[4/5] overflow-hidden rounded-sm bg-stone-900"
+                >
+                    <img 
+                        src="${img.url}" 
+                        alt="${img.title}" 
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    />
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs text-stone-300 tracking-widest uppercase mb-2">${img.category}</span>
+                        <h3 class="text-xl font-bold">${img.title}</h3>
+                        <div class="flex items-center gap-1 text-stone-400 text-sm mt-1">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i>
+                            <span>${img.location}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Re-init icons for new elements
+            lucide.createIcons();
+        }
+
+        function scrollToSection(id) {
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            if(!menu.classList.contains('hidden')) {
+                toggleMenu();
+            }
+
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Small delay to allow display:block to apply before opacity transition
+                setTimeout(() => menu.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+                // Change icon to X (not easily done with lucide data attributes dynamically without re-render, 
+                // but we can just re-set the attribute and call createIcons)
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.add('opacity-0');
+                setTimeout(() => menu.classList.add('hidden'), 300);
+                document.body.style.overflow = 'auto';
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
+        // Lightbox Logic
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            updateLightboxContent();
+            
+            lightbox.classList.remove('hidden');
+            setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                currentImageIndex = null;
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(e, direction) {
+            e.stopPropagation();
+            if (currentImageIndex === null) return;
+            
+            currentImageIndex = (currentImageIndex + direction + currentFilteredImages.length) % currentFilteredImages.length;
+            updateLightboxContent();
+        }
+
+        function updateLightboxContent() {
+            const imgData = currentFilteredImages[currentImageIndex];
+            document.getElementById('lightbox-img').src = imgData.url;
+            document.getElementById('lightbox-title').textContent = imgData.title;
+            document.getElementById('lightbox-location').textContent = imgData.location;
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').classList.contains('hidden')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') changeImage(e, 1);
+            if (e.key === 'ArrowLeft') changeImage(e, -1);
+        });
+    </script>
+</body>
+</html>
